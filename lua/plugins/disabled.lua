@@ -1,5 +1,5 @@
 return {
-  { "DanilaMihailov/beacon.nvim", enabled = true },
+  { "DanilaMihailov/beacon.nvim", enabled = false },
   { "ray-x/lsp_signature.nvim", enabled = true },
   { "chikko80/error-lens.nvim", enabled = true },
   { "jay-babu/mason-nvim-dap.nvim", enabled = true },

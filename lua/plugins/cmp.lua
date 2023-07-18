@@ -19,11 +19,14 @@ return {
     local cmp_disabled = cmp.config.disable
 
     vim.api.nvim_set_hl(0, "CmpItemMenu", { fg = "cyan" })
-    vim.api.nvim_set_hl(0, "BackgroundCmpItemkindSnippet", { fg = "white" })
-    vim.api.nvim_set_hl(0, "CmpItemKindTabNine", { fg = "#CD66F2" })
-    vim.api.nvim_set_hl(0, "myPmenu", { bg = "#24283b", fg = "cyan" })
-    vim.api.nvim_set_hl(0, "myPmenuSel", { bg = "#b3ffff", fg = "black", bold = true, italic = true })
-
+    -- vim.api.nvim_set_hl(0, "BackgroundCmpItemkindSnippet", { fg = "white" })
+    -- vim.api.nvim_set_hl(0, "CmpItemKindTabNine", { fg = "#CD66F2" })
+    -- vim.api.nvim_set_hl(0, "myPmenu", { bg = "#24283b", fg = "cyan" })
+    -- vim.api.nvim_set_hl(0, "myPmenuSel", { bg = "#b3ffff", fg = "black", bold = true, italic = true })
+    local border_opts = {
+      border = "rounded",
+      winhighlight = "Normal:NormalFloat,FloatBorder:FloatBorder,CursorLine:PmenuSel,Search:None",
+    }
     local check_backspace = function()
       local col = vim.fn.col(".") - 1
       return col == 0 or vim.fn.getline("."):sub(col, col):match("%s")
@@ -113,7 +116,6 @@ return {
         fields = { "kind", "abbr", "menu" },
         format = cmp_formatting(),
       },
-
       sources = {
         { name = "nvim_lsp" },
         { name = "luasnip" },
@@ -122,21 +124,20 @@ return {
         { name = "cmp_tabnine" },
         -- { name = "nvim_lsp_signature_help" },
       },
+      duplicates = {
+        nvim_lsp = 1,
+        luasnip = 1,
+        cmp_tabnine = 1,
+        buffer = 1,
+        path = 1,
+      },
       confirm_opts = {
         behavior = cmp.ConfirmBehavior.Replace,
         select = false,
       },
       window = {
-        completeopt = "menu,menuone,noinsert",
-        -- documentation = cmp.config.window.bordered(),
-        --completion = cmp.config.window.bordered(),
-        completion = cmp.config.window.bordered({
-          border = "single",
-          -- winhighlight = "Normal:myPmenu,FloatBorder:myPmenu,CursorLine:myPmenuSel,Seach:None",
-        }),
-        documentation = {
-          -- winhighlight = "Normal:myPmenu,FloatBorder:myPmenu,CursorLine:myPmenuSel,Seach:None",
-        },
+        completion = cmp.config.window.bordered(border_opts),
+        documentation = cmp.config.window.bordered(border_opts),
       },
       experimental = {
         ghost_text = false,
